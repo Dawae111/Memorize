@@ -7,11 +7,14 @@
 
 import SwiftUI
 
-struct ContentView: View { //behaves like a view\
+struct ContentView: View { //behaves like a view
+    let emoji: Array<String> = ["⚽️","🏀","🏈","⚾️","🥎","🎾","🏐","🏉"]
+        
     var body: some View {
         HStack{
-            CardView()
-            CardView()
+            ForEach(emoji.indices, id: \.self){ index in
+                CardView(content: emoji[index]);
+            }
         }
         .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
         .padding()
@@ -20,8 +23,11 @@ struct ContentView: View { //behaves like a view\
 
 
 struct CardView: View{
-    @State var isFaceup:Bool = false; //var for isfaceup: need to changed, let for base: does not change
+    let content: String
+    
+    @State var isFaceup:Bool = true; //var for isfaceup: need to changed, let for base: does not change
     //@State is for line38 where view can not be changed
+    
     var body: some View{
         
         ZStack {
@@ -30,7 +36,7 @@ struct CardView: View{
             if isFaceup{
                 base.foregroundColor(.white)
                 base.strokeBorder(style: StrokeStyle(lineWidth: 10, dash:[10,2]))
-                Text("😩").font(.largeTitle)
+                Text(content).font(.largeTitle)
             }else{
                 base.fill()
             }
