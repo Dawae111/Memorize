@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View { //behaves like a view\
     var body: some View {
         HStack{
-            CardView(isFaceup: true)
+            CardView()
             CardView()
         }
         .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
@@ -20,19 +20,25 @@ struct ContentView: View { //behaves like a view\
 
 
 struct CardView: View{
-    var isFaceup:Bool = false;
+    @State var isFaceup:Bool = false; //var for isfaceup: need to changed, let for base: does not change
+    //@State is for line38 where view can not be changed
     var body: some View{
+        
         ZStack {
+            let base = RoundedRectangle(cornerRadius:25)
+            //type inference: let base: RoundedRectangle = RoundedRectangle(cornerRadius:25)
             if isFaceup{
-                RoundedRectangle(cornerRadius: 25)
-                    .foregroundColor(.white)
-                RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                    .strokeBorder(style: StrokeStyle(lineWidth: 10, dash:[10,2]))
+                base.foregroundColor(.white)
+                base.strokeBorder(style: StrokeStyle(lineWidth: 10, dash:[10,2]))
                 Text("😩").font(.largeTitle)
             }else{
-                RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
+                base.fill()
             }
+        }.onTapGesture(count: 2) {
+            isFaceup.toggle()
+            
         }
+        
     }
 }
 #Preview {
